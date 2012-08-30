@@ -7,7 +7,8 @@
  * */
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
+#include <string.h>
 
 //circular buffer element type.
 typedef struct 
@@ -22,7 +23,7 @@ typedef struct
     int start; //index of start elements
     int end; //index of end elements
     ElemType *elems; //vector of elements
-}circularBuffer;
+} circularBuffer;
 
 void cbufferInit(circularBuffer *cb, int size)
 {
@@ -37,14 +38,20 @@ void cbufferFree(circularBuffer *cb)
     free( cb->elems );
 }
 
-bool cbufferIsFull(circularBuffer *cb)
+int cbufferIsFull(circularBuffer *cb)
 {
-    return cb->start == (cb->end + 1) % (cb->size);
+    if (cb->start == (cb->end + 1) % (cb->size))
+        return 1;
+
+    return 0;
 }
 
-bool cbufferIsEmpty(circularBuffer *cb)
+int cbufferIsEmpty(circularBuffer *cb)
 {
-    return cb->start == cb->end;
+    if (cb->start == cb->end)
+        return 1;
+
+    return 0;
 }
 
 //write an element, if buffer is full, overwrite the oldest
@@ -66,9 +73,9 @@ void cbufferRead(circularBuffer *cb, ElemType *elem)
     cb->start = (cb->start + 1) % cb->size;
 }
 
-int mian()
+int main()
 {
-    CircularBuffer cb;
+    circularBuffer cb;
     ElemType elem = {0};
 
     int testBufferSize = 10; // test
@@ -81,7 +88,7 @@ int mian()
     }
 
     //remove and print all elements.
-    while (!cb.cbufferIsEmpty(&cb))
+    while (!cbufferIsEmpty(&cb))
     {
         cbufferRead(&cb, &elem);
         printf("%d\n", elem.value);
