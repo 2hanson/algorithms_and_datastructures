@@ -25,12 +25,16 @@ typedef struct
     ElemType *elems; //vector of elements
 } circularBuffer;
 
-void cbufferInit(circularBuffer *cb, int size)
+int cbufferInit(circularBuffer *cb, int size)
 {
     cb->size = size + 1; //include the empty slot
     cb->start = 0;
     cb->end = 0;
     cb->elems = (ElemType *)calloc(cb->size, sizeof(ElemType));
+    if (cb->elems == null)
+        return 0;
+
+    return 1;
 }
 
 void cbufferFree(circularBuffer *cb)
@@ -79,7 +83,8 @@ int main()
     ElemType elem = {0};
 
     int testBufferSize = 10; // test
-    cbufferInit(&cb, testBufferSize);
+    if (cbufferInit(&cb, testBufferSize) == 0)
+        return -1;
 
     //fill buffer with elements.
     for (elem.value = 0; elem.value < 3 * testBufferSize; ++elem.value)
