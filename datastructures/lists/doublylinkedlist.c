@@ -15,8 +15,8 @@
 //link node
 typedef struct NODE
 {
-    NODE *pre;
-    NODE *next;
+    struct NODE *pre;
+    struct NODE *next;
     int value;
 } linkNode;
 
@@ -27,19 +27,8 @@ typedef struct
     linkNode *tail;
 }doublyLink;
 
-void initList(doublyLink *dlink)
-{
-    dlink->head = (linkNode *)calloc(1, sizeof(linkNode));
-    dlink->head->pre = NULL;
-    dlink->head->next = NULL;
-    dlink->tail = (linkNode *)calloc(1, sizeof(linkNode));
-    dlink->tail->pre = NULL;
-    dlink->tail->next = NULL;
-}
-
 int main()
 {
     doublyLink dlink;
-    initLink(&dlink);
 }
 
