@@ -26,3 +26,24 @@
  *
  * @author Hanson Yu (hangzhong.yu@gmail.com)
  * */
+#include <stdlib.h>
+#include <stdio.h>
+
+//vlist column
+typedef struct BLOCK
+{
+    struct BLOCK *pre;
+    struct BLOCK *next;
+    int *elem;
+}vlistBlock;
+
+void vlistInit(vlistBlock *vb, int size)
+{
+}
+
+int main()
+{
+    vlistBlock vb;
+    //vlistInit(&vb, 1);
+    return 0;
+}
