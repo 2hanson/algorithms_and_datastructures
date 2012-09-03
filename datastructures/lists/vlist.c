@@ -35,6 +35,8 @@ typedef struct BLOCK
     struct BLOCK *pre;
     struct BLOCK *next;
     int *elems;
+    int elemNum;
+    int totalNum;
 }vlistBlock;
 
 void vlistInit(vlistBlock *head, int size)
@@ -60,24 +62,33 @@ void vlistInit(vlistBlock *head, int size)
             head = cur;
         }
 
+        cur->totalNum = cur->elemNum = cursize;
         size -= cursize;
         cursize *= 2;
     }
+
+    //size if negtive num, as an example, size is -1, curcize is 4.
+    //they should set elemnum to -1 + 4,
+    cur->elemNum = curzise + size; 
 }
 
 /* remove the element at the position index.
  * @param elem
  *      the index at which to remove the element.
  * */
-void removeFromVlist(int index)
-{}
+void removeFromVlist(vlistBlock *head, int index)
+{
+                 
+}
 
 /*reset the element at the position index.
  * @param elem
  *      the index at which to reset the element.
  * */
 void set(int index, int value)
-{}
+{
+    
+}
 
 /*get the element at the position index.
  * @param elem
@@ -85,8 +96,11 @@ void set(int index, int value)
  * @param elem
  *      the element at the position.
  * */
-int get(int index)
-{}
+int locate(int index, vlistBlock *locBlock)
+{
+    if (head == NULL)
+        return -1;
+}
 
 /*add a new element to the end of the array.
  * @param elem
@@ -95,16 +109,11 @@ int get(int index)
 void add(int value)
 {}
 
-/*return the size of the vlist.
- * */
-int size()
-{}
-
 int main()
 {
     vlistBlock head;
 
-    vlistInit(&vb, 1);
+    vlistInit(&head, 1);
     return 0;
 }
 
