@@ -78,7 +78,6 @@ void vlistInit(vlistBlock *head, int size)
  * */
 void removeFromVlist(vlistBlock *head, int index)
 {
-                 
 }
 
 /*reset the element at the position index.
