@@ -1,3 +1,9 @@
+/* bst implementation in c++
+ * copyright (c) 2012 Hanson Yu
+ * 
+ * implemention is according to this wiki: http://en.wikipedia.org/wiki/Binary_search_tree
+ * */
+
 #include <iostream>
 using namespace std;
 
