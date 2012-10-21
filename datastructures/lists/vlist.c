@@ -29,14 +29,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+const int INF = 2147483647 /* maximum (signed) int value */;
+
 //vlist column
 typedef struct BLOCK
 {
     struct BLOCK *pre;
     struct BLOCK *next;
     int *elems;
-    int elemNum;
-    int totalNum;
+    int index;
+    int size;
 }vlistBlock;
 
 void vlistInit(vlistBlock *head, int size)
@@ -62,51 +64,111 @@ void vlistInit(vlistBlock *head, int size)
             head = cur;
         }
 
-        cur->totalNum = cur->elemNum = cursize;
+        cur->index = cur->size = cursize;
         size -= cursize;
         cursize *= 2;
     }
 
     //size if negtive num, as an example, size is -1, curcize is 4.
-    //they should set elemnum to -1 + 4,
-    cur->elemNum = curzise + size; 
+    //they should set index to -1 + 4,
+    cur->index = curzise + size; 
 }
 
-/* remove the element at the position index.
- * @param elem
- *      the index at which to remove the element.
- * */
-void removeFromVlist(vlistBlock *head, int index)
-{
-}
-
-/*reset the element at the position index.
- * @param elem
- *      the index at which to reset the element.
- * */
-void set(int index, int value)
-{
-    
-}
-
-/*get the element at the position index.
+/* Locate the kth element (O(1) average, O(log n) worst-case)
  * @param elem
  *      the index at which to look up the element.
  * @param elem
  *      the element at the position.
  * */
-int locate(int index, vlistBlock *locBlock)
+int locate(vlistBlock *head, int index)
 {
+    //here is a bug!!!
     if (head == NULL)
-        return -1;
+        return -INF;
+    
+    int curIndex = index;
+
+    while (head != NULL)
+    {
+        if (curIndex > head.index)
+        {
+            curIndex -= head.index;
+        }
+        else
+        {
+            return head->elems[curindex];
+        }
+        head = head->next;
+    }
+
+    return -INF;
 }
 
-/*add a new element to the end of the array.
+/*
+ * Compute the length of the list (O(log n)).
+ */
+int computeLen(vlistBlock *head)
+{
+    if (head == NULL)
+    {
+        return 0;
+    }
+    
+    int len = 0;
+    while (head != NULL)
+    {
+        ++len;
+        head = head->next;
+    }
+
+    return len;
+}
+
+vlistBlock* allocBlock(int size)
+{    
+        vlistBlock *cur;
+        int cursize = size;
+        cur = (vlistBlock *)malloc(sizeof(vlistBlock));
+        cur->elems = (int *)malloc(sizeof(cursize));
+        
+        cur->size = size;
+}
+
+/* Add an element to the front of the VList (O(1) average, with an occasional allocation)
  * @param elem
  *      the element to add.
  * */
-void add(int value)
-{}
+void add(vlistBlock *head, int value)
+{
+    if (head == NULL)
+    {
+        
+        vlistBlock *cur;
+        int cursize = 1;
+        cur = allocBlock(cursize);
+        cur->pre = NULL;
+        cur->next = NULL;
+        head = cur;
+
+        cur->index = 1;
+    }
+    else if (head->index > head->size)
+    {
+        vlistBlock *cur;
+        int cursize = 2*head->size;
+        cur = allocBlock(cursize);
+
+        cur->pre = NULL;
+        cur->next = head->next;
+        head->pre = cur;
+        head = cur;
+
+        cur->index = 1;
+    }
+
+    head->elems[index] = value;
+    ++head->index;
+}
 
 int main()
 {
