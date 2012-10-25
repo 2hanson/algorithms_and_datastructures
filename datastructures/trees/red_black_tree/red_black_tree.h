@@ -21,5 +21,8 @@ class Red_Black_Tree
         void insertNodeCase3(RBTreeNode *newNode);
         void insertNodeCase4(RBTreeNode *newNode);
         void insertNodeCase5(RBTreeNode *newNode);
+        void rotateLeft(RBTreeNode *curNode);
+        void retotaLeft(RBTreeNode *parentNodeOfcur);
+        void rotateRight(RBTreeNode *parentNodeOfcur);
 };
 

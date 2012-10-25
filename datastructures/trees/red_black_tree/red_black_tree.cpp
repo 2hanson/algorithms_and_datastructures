@@ -158,18 +158,70 @@ void Red_Black_Tree::insertNodeCase3(RBTreeNode *newNode)
     }
 }
 
+//Left Rotation of node P:
+//Let Q be P's right child.
+//Set Q to be the new root.
+//Set P's right child to be Q's left child.
+//Set Q's left child to be P.
+void Red_Black_Tree::rotateLeft(RBTreeNode *parentNodeOfCur)
+{
+    RBTreeNode *pivot = parentNodeOfCur->rightChild;
+    parentNodeOfCur->rightChild = pivot->leftChild;
+    pivot->leftChild = parentNodeOfCur;
+    parentNodeOfCur = pivot;
+}
+
+//Right Rotation of node Q:
+//Let P be Q's left child.
+//Set P to be the new root.
+//Set Q's left child to be P's right child.
+//Set P's right child to be Q.
+void Red_Black_Tree::rotateRight(RBTreeNode *parentNodeOfCur)
+{
+    RBTreeNode *pivot = parentNodeOfCur->leftChild;
+    parentNodeOfCur->leftChild = pivot->rightChild;
+    pivot->rightChild = parentNodeOfCur;
+    parentNodeOfCur = pivot;
+}
+
 void Red_Black_Tree::insertNodeCase4(RBTreeNode *newNode)
 {
-    
+    RBTreeNode *gpNode = grandparent(newNode);
+
+    if ((newNode == newNode->parent->rightChild) && (newNode->parent == gpNode->leftChild))
+    {
+        rotateLeft(newNode->parent);
+        newNode = newNode->leftChild;
+    }
+    else if ((newNode == newNode->parent->leftChild) && (newNode->parent == gpNode->rightChild))
+    {
+        rotateRight(newNode->parent);
+        newNode = newNode->rightChild;
+    }
+
+    insertNodeCase5(newNode);
 }
 
 void Red_Black_Tree::insertNodeCase5(RBTreeNode *newNode)
 {
+    RBTreeNode *gpNode = grandparent(newNode);
     
+    newNode->parent->color = Black;
+    gpNode->color = Red;
+
+    if (newNode == newNode->parent->leftChild)
+    {
+        rotateRight(gpNode);
+    }
+    else
+    {
+        rotateLeft(gpNode);
+    }
 }
 
 void Red_Black_Tree::restoreProperties(RBTreeNode *newNode)
-{    
+{
+    insertNodeCase1(newNode);
 }
 
 int main()
