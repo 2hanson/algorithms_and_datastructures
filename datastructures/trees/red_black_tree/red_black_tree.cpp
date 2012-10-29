@@ -224,6 +224,177 @@ void Red_Black_Tree::restoreProperties(RBTreeNode *newNode)
     insertNodeCase1(newNode);
 }
 
+RBTreeNode *Red_Black_Tree::sibling(RBTreeNode *curNode)
+{
+    if (curNode == curNode->parent->rightChild)
+    {
+        return curNode->parent->leftChild;
+    }
+    else
+    {
+        return curNode->parent->rightChild;
+    }
+}
+
+void Red_Black_Tree::replaceNode(RBTreeNode *curNode, RBTreeNode *newNode)
+{
+    if (curNode->parent != NULL)
+    {
+        if (curNode == curNode->parent->rightChild)
+        {
+            curNode->parent->rightChild = newNode;
+        }
+        else
+        {
+            curNode->parent->leftChild = newNode;
+        }
+    }
+
+    if (newNode != NULL)
+    {
+        newNode->parent = curNode->parent;
+    }
+}
+
+bool Red_Black_Tree::isLeaf(RBTreeNode *curNode)
+{
+    if (curNode == NULL)
+        return true;
+
+    return false;
+}
+
+void Red_Black_Tree::deleteOneChild(RBTreeNode *curNode)
+{
+    RBTreeNode *child = isLeaf(curNode->rightChild) ? curNode->leftChild : curNode->rightChild;
+
+    replaceNode(curNode, child);
+    if (curNode->color == Black)
+    {
+        if (child->color == Red)
+        {
+            child->color = Black;
+        }
+        else
+        {
+            deleteCase1(child);
+        }
+    }
+
+    free(curNode);
+}
+
+void Red_Black_Tree::deleteCase1(RBTreeNode *curNode)
+{
+    if (curNode->parent != NULL)
+    {
+        deleteCase2(curNode);
+    }
+}
+
+void Red_Black_Tree::deleteCase2(RBTreeNode *curNode)
+{
+    RBTreeNode *s = sibling(curNode);
+
+    if (s->color == Red)
+    {
+        curNode->parent->color = Red;
+        s->color = Black;
+        if (curNode = curNode->parent->leftChild)
+        {
+            rotateLeft(curNode->parent);
+        }
+        else
+        {
+            rotateRight(curNode->parent);
+        }
+    }
+
+    deleteCase3(curNode);
+}
+
+void Red_Black_Tree::deleteCase3(RBTreeNode *curNode)
+{
+   RBTreeNode *s = sibling(curNode);
+
+   if (curNode->parent->color == Black && s->color == Black && 
+           s->leftChild->color == Black && s->rightChild->color == Black)
+   {
+        s->color = Red;
+        deleteCase1(curNode->parent);
+   }
+   else
+   {
+        deleteCase4(curNode);
+   }
+}
+
+void Red_Black_Tree::deleteCase4(RBTreeNode *curNode)
+{
+    
+   RBTreeNode *s = sibling(curNode);
+
+   if (curNode->parent->color == Red && s->color == Black && 
+           s->leftChild->color == Black && s->rightChild->color == Black)
+   {
+        s->color = Red;
+        curNode->parent->color = Black;
+   }
+   else
+   {
+        deleteCase5(curNode);
+   }
+}
+
+void Red_Black_Tree::deleteCase5(RBTreeNode *curNode)
+{
+    RBTreeNode *s = sibling(curNode);
+
+    if (s->color == Black)
+    {
+        /* this if statement is trivial,
+         * due to case 2 (even though case 2 changed the sibling to a sibling's child,
+         * the sibling's child can't be red, since no red parent can have a red child). */
+        /* the following statements just force the red to be on the left of the left of the parent,
+         *    or right of the right, so case six will rotate correctly. */
+        if ((curNode == curNode->parent->leftChild) && (s->rightChild->color == Black)
+                && (s->leftChild->color == Red))
+        {
+            s->color = Red;
+            s->leftChild->color = Black;
+            rotateRight(s);
+        }
+        else if((curNode == curNode->parent->rightChild) && (s->rightChild->color == Red) 
+                && (s->leftChild->color == Black))
+        {
+            s->color = Red;
+            s->rightChild->color = Black;
+            rotateLeft(s);
+        }
+    }
+
+    deleteCase6(curNode);
+}
+
+void Red_Black_Tree::deleteCase6(RBTreeNode *curNode)
+{
+    RBTreeNode *s = sibling(curNode);
+
+    s->color = curNode->parent->color;
+    curNode->parent->color = Black;
+
+    if (curNode = curNode->parent->leftChild)
+    {
+        s->rightChild->color = Black;
+        rotateLeft(curNode->parent);
+    }
+    else
+    {
+        s->leftChild->color = Black;
+        rotateRight(curNode->parent);
+    }
+}
+
 int main()
 {}
 

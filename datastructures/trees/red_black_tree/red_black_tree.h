@@ -14,6 +14,8 @@ class Red_Black_Tree
         RBTreeNode *findTheNode(int value);
         RBTreeNode *grandparent(RBTreeNode *curNode);
         RBTreeNode *uncle(RBTreeNode *curNode);
+        RBTreeNode *sibling(RBTreeNode *curNode);
+
         void insertNewNode(int value);
         void restoreProperties(RBTreeNode *newNode);
         void insertNodeCase1(RBTreeNode *newNode);
@@ -24,5 +26,14 @@ class Red_Black_Tree
         void rotateLeft(RBTreeNode *curNode);
         void retotaLeft(RBTreeNode *parentNodeOfcur);
         void rotateRight(RBTreeNode *parentNodeOfcur);
+        void replaceNode(RBTreeNode *curNode, RBTreeNode *newNode);
+        bool isLeaf(RBTreeNode *curNode);
+        void deleteOneChild(RBTreeNode *curNode);
+        void deleteCase1(RBTreeNode *curNode);
+        void deleteCase2(RBTreeNode *curNode);
+        void deleteCase3(RBTreeNode *curNode);
+        void deleteCase4(RBTreeNode *curNode);
+        void deleteCase5(RBTreeNode *curNode);
+        void deleteCase6(RBTreeNode *curNode);
 };
 
