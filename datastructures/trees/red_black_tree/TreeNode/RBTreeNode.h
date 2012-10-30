@@ -4,7 +4,7 @@
 #include "Color.h"
 #endif
 
-class RBTreeNode:public TreeNode
+class RBTreeNode: public TreeNode
 {
     public:
         COLOR color;
